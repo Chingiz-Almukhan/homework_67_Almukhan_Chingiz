@@ -2,10 +2,19 @@ let urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
 $.get(
     `https://breakingbadapi.com/api/characters/${id}`, function (data) {
-
+        let age = 'Unknown';
+        if (data[0].birthday === 'Unknown'){
+            age = 'Unknown';
+        } else {
+            function calcAge() {
+            var birthday = +new Date(data[0].birthday);
+            return ~~((Date.now() - birthday) / (31557600000));
+            }
+            age = calcAge()
+        }
         $("#card").append(`<div class="img-square-wrapper"><img class="" src="${data[0].img}" alt="Card image cap" height="383" width="268"></div>
             <div class="card-body"><h4 class="card-title text-center">${data[0].name}</h4>
-            <p class="card-text">birthday: ${data[0].birthday}</p>
+            <p class="card-text">age: ${age}</p>
             <p class="card-text">occupation: ${data[0].occupation}</p>
             <p class="card-text">status: ${data[0].status}</p>
             <p class="card-text">nickname: ${data[0].nickname}</p>
@@ -19,7 +28,7 @@ $.get(
                     $(".card-body").append(`<p class="card-text">${i+1}) ${quote[i].quote}</p>`)
                 }
             } else {
-                $(".card-body").append(`<p class="card-text">${quote[0].quote}</p>`)
+                $(".card-body").append(`<p class="card-text">1)${quote[0].quote}</p>`)
             }
         })
 
