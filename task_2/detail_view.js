@@ -12,6 +12,16 @@ $.get(
             <p class="card-text">portrayed: ${data[0].portrayed}</p>
             <h2 id="quotes" class="card-title text-center">Quotes</h2>
             </div>`);
+        var author = data[0].name
+        $.get(`https://breakingbadapi.com/api/quote?author=${author.replace(/ /g, '+')}`, function (quote) {
+            if (quote.length > 1) {
+                for (let i = 0; i < quote.length; i++) {
+                    $(".card-body").append(`<p class="card-text">${i+1}) ${quote[i].quote}</p>`)
+                }
+            } else {
+                $(".card-body").append(`<p class="card-text">${quote[0].quote}</p>`)
+            }
+        })
 
     }
 )
